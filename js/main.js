@@ -19,27 +19,30 @@ var pictureTemplate = document.querySelector('#picture')
 var pictureList = document.querySelector('.pictures');
 var fragment = document.createDocumentFragment();
 
-var getRandomElement = function (min, max) { return Math.floor(Math.random() * (max - min)) + min;
+var getRandomElement = function (min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
 };
 
 var getCommentObject = function () {
   var comments = [];
+
   for (var i = 0; i < getRandomElement(1, 7); i++) {
     comments[i] = {
       avatar: 'img/avatar-' + getRandomElement(1, 6) + '.svg',
       message: COMMENTS[getRandomElement(0, COMMENTS.length)],
       name: NAMES[getRandomElement(0, NAMES.length)]
     };
-    return comments;
   }
+
+  return comments;
 };
 
 var getPhotoObject = function (number) {
   return {
-      url: 'photos/' + (number + 1) + '.jpg',
-      likes: getRandomElement(15, 200),
-      comments: getCommentObject()
-    };
+    url: 'photos/' + (number + 1) + '.jpg',
+    likes: getRandomElement(15, 200),
+    comments: getCommentObject()
+  };
 };
 
 var renderPicture = function (photo) {
@@ -48,13 +51,11 @@ var renderPicture = function (photo) {
   pictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
   pictureElement.querySelector('.picture__likes').textContent = photo.likes;
 
-
   return pictureElement;
-}
-
+};
 
 for (var i = 0; i < photosQuantity; i++) {
   fragment.appendChild(renderPicture(getPhotoObject(i)));
-};
+}
 
 pictureList.appendChild(fragment);
