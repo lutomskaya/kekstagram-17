@@ -11,7 +11,16 @@ var COMMENTS = [
 
 var NAMES = ['Иван', 'Карл', 'Даня', 'Паша', 'Стас', 'Рома'];
 
-var photosQuantity = 25;
+var COMMENTS_MIN = 0;
+var COMMENTS_MAX = 7;
+
+var AVATARS_MIN = 1;
+var AVATARS_MAX = 6;
+
+var LIKES_MIN = 15;
+var LIKES_MAX = 200;
+
+var PHOTOS_QUANTITY = 25;
 
 var pictureTemplate = document.querySelector('#picture')
     .content
@@ -26,23 +35,27 @@ var getRandomElement = function (min, max) {
 var getCommentObject = function () {
   var comments = [];
 
-  for (var i = 0; i < getRandomElement(1, 7); i++) {
-    comments[i] = {
-      avatar: 'img/avatar-' + getRandomElement(1, 6) + '.svg',
+  for (var i = 0; i <= getRandomElement(COMMENTS_MIN, COMMENTS_MAX); i++) {
+    comments.push({
+      avatar: 'img/avatar-' + getRandomElement(AVATARS_MIN, AVATARS_MAX) + '.svg',
       message: COMMENTS[getRandomElement(0, COMMENTS.length)],
       name: NAMES[getRandomElement(0, NAMES.length)]
-    };
+    });
   }
 
   return comments;
 };
 
 var getPhotoObject = function (number) {
-  return {
-    url: 'photos/' + (number + 1) + '.jpg',
-    likes: getRandomElement(15, 200),
-    comments: getCommentObject()
-  };
+  var photos = [];
+  for (var i = 0; i <= number; i++) {
+    photos.push({
+      url: 'photos/' + (i + 1) + '.jpg',
+      likes: getRandomElement(LIKES_MIN, LIKES_MAX),
+      comments: getCommentObject()
+    });
+  }
+  return photos;
 };
 
 var renderPicture = function (photo) {
@@ -54,8 +67,10 @@ var renderPicture = function (photo) {
   return pictureElement;
 };
 
-for (var i = 0; i < photosQuantity; i++) {
-  fragment.appendChild(renderPicture(getPhotoObject(i)));
+var photos = getPhotoObject(PHOTOS_QUANTITY);
+
+for (var i = 0; i < photos.length - 1; i++) {
+  fragment.appendChild(renderPicture(photos[i]));
 }
 
 pictureList.appendChild(fragment);
