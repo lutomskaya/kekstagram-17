@@ -28,9 +28,9 @@ var ENTER_KEYCODE = 13;
 var SIZE_MIN = 25;
 var SIZE_MAX = 100;
 var SIZE_STEP = 25;
-var DEFOLT_FILTER_VALUE = 100;
+var DEFAULT_FILTER_VALUE = 100;
 
-var currentScaleValue = DEFOLT_FILTER_VALUE;
+var currentScaleValue = DEFAULT_FILTER_VALUE;
 
 var pictureTemplate = document.querySelector('#picture')
     .content
@@ -53,6 +53,13 @@ var effectLevel = imgUpload.querySelector('.effect-level');
 var effectValueElement = effectLevel.querySelector('.effect-level__value');
 var effectsList = document.querySelector('.effects__list');
 var effectsRadioElements = effectsList.querySelectorAll('.effects__radio');
+var effectNoneRadio = effectsList.querySelector('.effect-none');
+var effectChromeRadio = effectsList.querySelector('.effect-chrome');
+var effectSepiaRadio = effectsList.querySelector('.effect-sepia');
+var effectMarvinRadio = effectsList.querySelector('.effect-marvin');
+var effectPhobosRadio = effectsList.querySelector('.effect-phobos');
+var effectHeatRadio = effectsList.querySelector('.effect-heat');
+
 
 var img = imgUploadPreview.querySelector('img');
 
@@ -72,28 +79,27 @@ var openPopup = function () {
   uploadOverlay.classList.remove('hidden');
 
   effectsRadioElements[0].checked = true;
-  scaleInput.value = '100%';
+  scaleInput.value = DEFAULT_FILTER_VALUE;
   img.className = '';
   img.style.filter = 'none';
-
+  effectLevel.classList.add('hidden');
   document.addEventListener('keydown', onPopupEscPress);
 };
 
 var closePopup = function () {
   uploadOverlay.classList.add('hidden');
-  document.removeEventListener('keydown', onPopupEscPress);
+
   uploadFile.value = '';
   imgUploadPreview.style.transform = '';
   img.className = '';
+
+  document.removeEventListener('keydown', onPopupEscPress);
 };
 
-uploadFile.addEventListener('change', function () {
-  openPopup();
-});
+uploadFile.addEventListener('change', openPopup);
 
-uploadClose.addEventListener('click', function () {
-  closePopup();
-});
+uploadClose.addEventListener('click', closePopup);
+
 
 uploadClose.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
@@ -117,95 +123,95 @@ var inZoom = function () {
   setImagePreviewScale(currentScaleValue);
 };
 
-scaleDownButton.addEventListener('click', function () {
+var tryScaleImgOut = function () {
   if (currentScaleValue > SIZE_MIN) {
     outZoom();
   }
+};
+
+var tryScaleImgIn = function () {
+  if (currentScaleValue < SIZE_MAX) {
+    inZoom();
+  }
+};
+
+scaleDownButton.addEventListener('click', function () {
+  tryScaleImgOut();
 });
 
 scaleDownButton.addEventListener('keydown', function () {
-  if (currentScaleValue > SIZE_MIN) {
-    outZoom();
-  }
+  tryScaleImgOut();
 });
 
 scaleUpButton.addEventListener('click', function () {
-  if (currentScaleValue < SIZE_MAX) {
-    inZoom();
-  }
+  tryScaleImgIn();
 });
 
 scaleUpButton.addEventListener('keydown', function () {
-  if (currentScaleValue < SIZE_MAX) {
-    inZoom();
-  }
+  tryScaleImgIn();
 });
 
 // Применение фильтров
 var changeEffects = function (evt) {
+  var effect = evt.target.value;
   imgUploadPreview.className = '';
   if (evt.target.value !== 'none') {
     effectLevel.classList.remove('hidden');
-    imgUploadPreview.classList.add(
-        'effects__preview--' + evt.target.value
-    );
   }
-
-  if (evt.target.value === 'none') {
-    imgUploadPreview.style.filter = '';
-    effectLevel.classList.add('hidden');
-  }
-  if (evt.target.value === 'chrome') {
-    imgUploadPreview.style.filter = 'grayscale(1)';
-  }
-  if (evt.target.value === 'sepia') {
-    imgUploadPreview.style.filter = 'sepia(1)';
-  }
-  if (evt.target.value === 'marvin') {
-    imgUploadPreview.style.filter = 'invert(100%)';
-  }
-  if (evt.target.value === 'phobos') {
-    imgUploadPreview.style.filter = 'blur(3px)';
-  }
-  if (evt.target.value === 'heat') {
-    imgUploadPreview.style.filter = 'brightness(3)';
+  switch (effect) {
+    case 'none':
+      imgUploadPreview.style.filter = '';
+      effectLevel.classList.add('hidden');
+      break;
+    case 'chrome':
+      imgUploadPreview.style.filter = 'grayscale(1)';
+      break;
+    case 'sepia':
+      imgUploadPreview.style.filter = 'sepia(1)';
+      break;
+    case 'marvin':
+      imgUploadPreview.style.filter = 'invert(100%)';
+      break;
+    case 'phobos':
+      imgUploadPreview.style.filter = 'blur(3px)';
+      break;
+    case 'heat':
+      imgUploadPreview.style.filter = 'brightness(3)';
+      break;
   }
 };
 
 effectsRadioElements.forEach(function (item) {
-  item.addEventListener('change', function (evt) {
-    changeEffects(evt);
-  });
+  item.addEventListener('change', changeEffects);
 });
 
 var changeIntensityEffect = function () {
   effectValueElement.value = (
     slider.offsetLeft / levelLine.clientWidth).toFixed(1);
 
-  if (imgUploadPreview.classList[0] === 'none') {
-    imgUploadPreview.style.filter = 'none';
-  }
-
-  if (imgUploadPreview.classList[0] === 'chrome') {
-    imgUploadPreview.style.filter = 'grayscale(' + effectValueElement.value + ')';
-  }
-  if (imgUploadPreview.classList[0] === 'sepia') {
-    imgUploadPreview.style.filter = 'sepia(' + effectValueElement.value + ')';
-  }
-  if (imgUploadPreview.classList[0] === 'marvin') {
-    imgUploadPreview.style.filter = 'invert(' + effectValueElement.value * 100 + '%)';
-  }
-  if (imgUploadPreview.classList[0] === 'phobos') {
-    imgUploadPreview.style.filter = 'blur(' + (effectValueElement.value * 3) + 'px)';
-  }
-  if (imgUploadPreview.classList[0] === 'heat') {
-    imgUploadPreview.style.filter = 'brightness(' + (effectValueElement.value * 3 + ')');
+  switch (effectsRadioElements[0].selected) {
+    case effectNoneRadio:
+      imgUploadPreview.style.filter = effectNoneRadio;
+      break;
+    case effectChromeRadio:
+      imgUploadPreview.style.filter = 'grayscale(' + effectValueElement.value + ')';
+      break;
+    case effectSepiaRadio:
+      imgUploadPreview.style.filter = 'sepia(' + effectValueElement.value + ')';
+      break;
+    case effectMarvinRadio:
+      imgUploadPreview.style.filter = 'invert(' + effectValueElement.value * 100 + '%)';
+      break;
+    case effectPhobosRadio:
+      imgUploadPreview.style.filter = 'blur(' + (effectValueElement.value * 3) + 'px)';
+      break;
+    case effectHeatRadio:
+      imgUploadPreview.style.filter = 'brightness(' + (effectValueElement.value * 3 + ')');
+      break;
   }
 };
 
-slider.addEventListener('mouseup', function () {
-  changeIntensityEffect();
-});
+window.contentSlider(changeIntensityEffect);
 
 var getCommentObject = function () {
   var comments = [];
