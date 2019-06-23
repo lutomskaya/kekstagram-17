@@ -32,6 +32,13 @@ var DEFAULT_FILTER_VALUE = 100;
 
 var currentScaleValue = DEFAULT_FILTER_VALUE;
 
+var EFFECT_NONE = '';
+var EFFECT_CHROME = 'grayscale(1)';
+var EFFECT_SEPIA = 'sepia(1)';
+var EFFECT_MARVIN = 'invert(100%)';
+var EFFECT_PHOBOS = 'blur(3px)';
+var EFFECT_HEAT = 'brightness(3)';
+
 var pictureTemplate = document.querySelector('#picture')
     .content
     .querySelector('.picture');
@@ -50,6 +57,7 @@ var imgUploadPreview = imgUpload.querySelector('.img-upload__preview');
 var slider = imgUpload.querySelector('.effect-level__pin');
 var levelLine = imgUpload.querySelector('.effect-level__line');
 var effectLevel = imgUpload.querySelector('.effect-level');
+var effectsField = imgUpload.querySelector('.img-upload__effects');
 var effectValueElement = effectLevel.querySelector('.effect-level__value');
 var effectsList = document.querySelector('.effects__list');
 var effectsRadioElements = effectsList.querySelectorAll('.effects__radio');
@@ -155,30 +163,35 @@ scaleUpButton.addEventListener('keydown', function () {
 var changeEffects = function (evt) {
   var effect = evt.target.value;
   imgUploadPreview.className = '';
-  if (evt.target.value !== 'none') {
+
+  var getDefaultEffectValue = function () {
+    switch (effect) {
+      case 'none':
+        imgUploadPreview.style.filter = EFFECT_NONE;
+        effectLevel.classList.add('hidden');
+        break;
+      case 'chrome':
+        imgUploadPreview.style.filter = EFFECT_CHROME;
+        break;
+      case 'sepia':
+        imgUploadPreview.style.filter = EFFECT_SEPIA;
+        break;
+      case 'marvin':
+        imgUploadPreview.style.filter = EFFECT_MARVIN;
+        break;
+      case 'phobos':
+        imgUploadPreview.style.filter = EFFECT_PHOBOS;
+        break;
+      case 'heat':
+        imgUploadPreview.style.filter = EFFECT_HEAT;
+        break;
+    }
+  };
+
+  if (effect !== 'none') {
     effectLevel.classList.remove('hidden');
   }
-  switch (effect) {
-    case 'none':
-      imgUploadPreview.style.filter = '';
-      effectLevel.classList.add('hidden');
-      break;
-    case 'chrome':
-      imgUploadPreview.style.filter = 'grayscale(1)';
-      break;
-    case 'sepia':
-      imgUploadPreview.style.filter = 'sepia(1)';
-      break;
-    case 'marvin':
-      imgUploadPreview.style.filter = 'invert(100%)';
-      break;
-    case 'phobos':
-      imgUploadPreview.style.filter = 'blur(3px)';
-      break;
-    case 'heat':
-      imgUploadPreview.style.filter = 'brightness(3)';
-      break;
-  }
+  imgUploadPreview.style.filter = getDefaultEffectValue(effect);
 };
 
 effectsRadioElements.forEach(function (item) {
@@ -189,7 +202,7 @@ var changeIntensityEffect = function () {
   effectValueElement.value = (
     slider.offsetLeft / levelLine.clientWidth).toFixed(1);
 
-  switch (effectsRadioElements[0].selected) {
+  switch (effectsField.querySelector('input:checked').value) {
     case effectNoneRadio:
       imgUploadPreview.style.filter = effectNoneRadio;
       break;
