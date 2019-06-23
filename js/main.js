@@ -32,12 +32,14 @@ var DEFAULT_FILTER_VALUE = 100;
 
 var currentScaleValue = DEFAULT_FILTER_VALUE;
 
-var EFFECT_NONE = '';
-var EFFECT_CHROME = 'grayscale(1)';
-var EFFECT_SEPIA = 'sepia(1)';
-var EFFECT_MARVIN = 'invert(100%)';
-var EFFECT_PHOBOS = 'blur(3px)';
-var EFFECT_HEAT = 'brightness(3)';
+var DefaultEffectsValues = {
+  'none': '',
+  'chrome': 1,
+  'sepia': 1,
+  'marvin': 100,
+  'phobos': 3,
+  'heat': 3
+};
 
 var pictureTemplate = document.querySelector('#picture')
     .content
@@ -58,16 +60,8 @@ var slider = imgUpload.querySelector('.effect-level__pin');
 var levelLine = imgUpload.querySelector('.effect-level__line');
 var effectLevel = imgUpload.querySelector('.effect-level');
 var effectsField = imgUpload.querySelector('.img-upload__effects');
-var effectValueElement = effectLevel.querySelector('.effect-level__value');
 var effectsList = document.querySelector('.effects__list');
 var effectsRadioElements = effectsList.querySelectorAll('.effects__radio');
-var effectNoneRadio = effectsList.querySelector('.effect-none');
-var effectChromeRadio = effectsList.querySelector('.effect-chrome');
-var effectSepiaRadio = effectsList.querySelector('.effect-sepia');
-var effectMarvinRadio = effectsList.querySelector('.effect-marvin');
-var effectPhobosRadio = effectsList.querySelector('.effect-phobos');
-var effectHeatRadio = effectsList.querySelector('.effect-heat');
-
 
 var img = imgUploadPreview.querySelector('img');
 
@@ -99,6 +93,7 @@ var closePopup = function () {
 
   uploadFile.value = '';
   imgUploadPreview.style.transform = '';
+  imgUploadPreview.style.filter = '';
   img.className = '';
 
   document.removeEventListener('keydown', onPopupEscPress);
@@ -160,38 +155,31 @@ scaleUpButton.addEventListener('keydown', function () {
 });
 
 // Применение фильтров
+
+var getEffectStyle = function (effect, value) {
+  var curValue = (value) ? value * DefaultEffectsValues[effect] : DefaultEffectsValues[effect];
+
+  switch (effect) {
+    case 'chrome':
+      return 'grayscale(' + curValue + ')';
+    case 'sepia':
+      return 'sepia(' + curValue + ')';
+    case 'marvin':
+      return 'invert(' + curValue + '%)';
+    case 'phobos':
+      return 'blur(' + curValue + 'px)';
+    case 'heat':
+      return 'brightness(' + curValue + ')';
+    default:
+      return DefaultEffectsValues.none;
+  }
+};
 var changeEffects = function (evt) {
   var effect = evt.target.value;
-  imgUploadPreview.className = '';
 
-  var getDefaultEffectValue = function () {
-    switch (effect) {
-      case 'none':
-        imgUploadPreview.style.filter = EFFECT_NONE;
-        effectLevel.classList.add('hidden');
-        break;
-      case 'chrome':
-        imgUploadPreview.style.filter = EFFECT_CHROME;
-        break;
-      case 'sepia':
-        imgUploadPreview.style.filter = EFFECT_SEPIA;
-        break;
-      case 'marvin':
-        imgUploadPreview.style.filter = EFFECT_MARVIN;
-        break;
-      case 'phobos':
-        imgUploadPreview.style.filter = EFFECT_PHOBOS;
-        break;
-      case 'heat':
-        imgUploadPreview.style.filter = EFFECT_HEAT;
-        break;
-    }
-  };
+  effectLevel.classList[(effect !== 'none') ? 'remove' : 'add']('hidden');
+  imgUploadPreview.style.filter = getEffectStyle(effect);
 
-  if (effect !== 'none') {
-    effectLevel.classList.remove('hidden');
-  }
-  imgUploadPreview.style.filter = getDefaultEffectValue(effect);
 };
 
 effectsRadioElements.forEach(function (item) {
@@ -199,29 +187,10 @@ effectsRadioElements.forEach(function (item) {
 });
 
 var changeIntensityEffect = function () {
-  effectValueElement.value = (
-    slider.offsetLeft / levelLine.clientWidth).toFixed(1);
+  var currentLevel = (slider.offsetLeft / levelLine.clientWidth).toFixed(1);
+  var currentEffect = effectsField.querySelector('input:checked').value;
 
-  switch (effectsField.querySelector('input:checked').value) {
-    case effectNoneRadio:
-      imgUploadPreview.style.filter = effectNoneRadio;
-      break;
-    case effectChromeRadio:
-      imgUploadPreview.style.filter = 'grayscale(' + effectValueElement.value + ')';
-      break;
-    case effectSepiaRadio:
-      imgUploadPreview.style.filter = 'sepia(' + effectValueElement.value + ')';
-      break;
-    case effectMarvinRadio:
-      imgUploadPreview.style.filter = 'invert(' + effectValueElement.value * 100 + '%)';
-      break;
-    case effectPhobosRadio:
-      imgUploadPreview.style.filter = 'blur(' + (effectValueElement.value * 3) + 'px)';
-      break;
-    case effectHeatRadio:
-      imgUploadPreview.style.filter = 'brightness(' + (effectValueElement.value * 3 + ')');
-      break;
-  }
+  imgUploadPreview.style.filter = getEffectStyle(currentEffect, currentLevel);
 };
 
 window.contentSlider(changeIntensityEffect);
