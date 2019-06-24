@@ -62,7 +62,7 @@ var effectLevel = imgUpload.querySelector('.effect-level');
 var effectsField = imgUpload.querySelector('.img-upload__effects');
 var effectsList = document.querySelector('.effects__list');
 var effectsRadioElements = effectsList.querySelectorAll('.effects__radio');
-var textDescription = document.querySelector('.text__description')
+var textDescription = document.querySelector('.text__description');
 
 var img = imgUploadPreview.querySelector('img');
 
