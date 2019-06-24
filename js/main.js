@@ -62,6 +62,7 @@ var effectLevel = imgUpload.querySelector('.effect-level');
 var effectsField = imgUpload.querySelector('.img-upload__effects');
 var effectsList = document.querySelector('.effects__list');
 var effectsRadioElements = effectsList.querySelectorAll('.effects__radio');
+var textDescription = document.querySelector('.text__description')
 
 var img = imgUploadPreview.querySelector('img');
 
@@ -72,7 +73,7 @@ var getRandomElement = function (min, max) {
 // открытие / закрытие окна редактирования фотографии
 
 var onPopupEscPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === ESC_KEYCODE && evt.target !== textDescription) {
     closePopup();
   }
 };
