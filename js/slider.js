@@ -42,6 +42,7 @@
 
         var pinPosition = convertCoordInPercent(effectPinCoord, effectLevelLineWidth);
         slider.style.left = pinPosition;
+        levelDepth.style.width = pinPosition;
 
         changeIntensityEffect();
       };
@@ -56,6 +57,6 @@
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
     });
-  };
 
+  };
 })();
