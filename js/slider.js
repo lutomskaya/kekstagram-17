@@ -42,6 +42,7 @@
 
         var pinPosition = convertCoordInPercent(effectPinCoord, effectLevelLineWidth);
         slider.style.left = pinPosition;
+        levelDepth.style.width = pinPosition;
 
         changeIntensityEffect();
       };
