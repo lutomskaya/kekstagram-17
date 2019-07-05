@@ -14,6 +14,7 @@
       if (evt.keyCode === ENTER_KEYCODE) {
         action();
       }
-    }
+    },
+    PHOTOS_QUANTITY: 25
   };
 })();
