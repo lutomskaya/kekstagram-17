@@ -11,14 +11,10 @@
   var textDescription = document.querySelector('.text__description');
   var imgUploadPreview = document.querySelector('.img-upload__preview');
   var img = document.querySelector('img');
-  var ESC_KEYCODE = 27;
-  var ENTER_KEYCODE = 13;
 
 
   var onPopupEscPress = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE && evt.target !== textDescription) {
-      closePopup();
-    }
+    window.util.isEscEvent(evt, closePopup);
   };
 
   var openPopup = function () {
@@ -43,14 +39,16 @@
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
+  textDescription.addEventListener('focus', function () {
+    document.removeEventListener('keydown', onPopupEscPress);
+  });
+
   uploadFile.addEventListener('change', openPopup);
 
   uploadClose.addEventListener('click', closePopup);
 
 
   uploadClose.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      closePopup();
-    }
+    window.util.isEscEvent(evt, closePopup);
   });
 })();
