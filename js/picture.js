@@ -4,7 +4,7 @@
   var MIN_AVATARS = 1;
   var MAX_AVATARS = 6;
 
-  var picturesBlock = [];
+  var pictureBlocks = [];
 
   var pictureList = document.querySelector('.pictures');
   var filtersElement = document.querySelector('.img-filters');
@@ -53,10 +53,10 @@
   };
 
   var showLoadSuccess = function (photos) {
-    picturesBlock = photos;
+    pictureBlocks = photos;
     filtersElement.classList.remove('img-filters--inactive');
-    window.displayPictures(picturesBlock);
-    return picturesBlock;
+    window.displayPictures(pictureBlocks);
+    return pictureBlocks;
   };
 
   var onFilterClick = function (evt) {
@@ -65,13 +65,13 @@
     var id = evt.target.id;
     switch (id) {
       case 'filter-popular':
-        window.displayPictures(picturesBlock);
+        window.displayPictures(pictureBlocks);
         break;
       case 'filter-new':
-        showNewPhotos(picturesBlock);
+        showNewPhotos(pictureBlocks);
         break;
       case 'filter-discussed':
-        showDiscussedPhotos(picturesBlock);
+        showDiscussedPhotos(pictureBlocks);
     }
   };
 
@@ -116,9 +116,9 @@
     evt.preventDefault();
     if (evt.target.classList.contains('picture__img')) {
       var attribute = evt.target.getAttribute('src');
-      for (var i = 0; i < picturesBlock.length; i++) {
-        if (picturesBlock[i].url === attribute) {
-          getBigPicture(picturesBlock[i]);
+      for (var i = 0; i < pictureBlocks.length; i++) {
+        if (pictureBlocks[i].url === attribute) {
+          getBigPicture(pictureBlocks[i]);
         }
       }
     }

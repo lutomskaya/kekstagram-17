@@ -25,15 +25,14 @@
 
   var onError = function (errorMessage) {
     var block = document.createElement('div');
-    block.style.height = 150 + 'px';
-    block.style.index = 100;
-    block.style.position = 'fixed';
-    block.style.color = 'red';
-    block.style.fontWeight = 'bold';
+    block.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    block.style.position = 'absolute';
+    block.style.left = 0;
+    block.style.right = 0;
     block.style.fontSize = '50px';
 
     block.textContent = errorMessage;
-    return block;
+    document.body.insertAdjacentElement('afterbegin', block);
   };
 
   window.load(window.displayPictures, onError);

@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var DefaultEffectsValues = {
+  var DEFAULT_EFFECTS_VALUES = {
     'none': '',
     'chrome': 1,
     'sepia': 1,
@@ -17,7 +17,7 @@
   var imgUploadPreview = document.querySelector('.img-upload__preview');
 
   var getEffectStyle = function (effect, value) {
-    var curValue = (value) ? value * DefaultEffectsValues[effect] : DefaultEffectsValues[effect];
+    var curValue = (value) ? value * DEFAULT_EFFECTS_VALUES[effect] : DEFAULT_EFFECTS_VALUES[effect];
 
     switch (effect) {
       case 'chrome':
@@ -31,7 +31,7 @@
       case 'heat':
         return 'brightness(' + curValue + ')';
       default:
-        return DefaultEffectsValues.none;
+        return DEFAULT_EFFECTS_VALUES.none;
     }
   };
   var changeEffects = function (evt) {

@@ -2,6 +2,9 @@
 
 (function () {
   var DEFAULT_FILTER_VALUE = 100;
+  var MAX_HASHTAGS = 5;
+  var MAX_HASHTAG_SIZE = 20;
+  var MIN_HASHTAG_SIZE = 2;
   var uploadFile = document.querySelector('#upload-file');
   var uploadOverlay = document.querySelector('.img-upload__overlay');
   var uploadClose = document.querySelector('.img-upload__cancel');
@@ -11,7 +14,56 @@
   var textDescription = document.querySelector('.text__description');
   var imgUploadPreview = document.querySelector('.img-upload__preview');
   var img = document.querySelector('img');
+  var textHashtags = document.querySelector('.text__hashtags');
+  var imgUploadForm = document.querySelector('.img-upload__form');
 
+  var checkHashtag = function () {
+    var hashtagsArr = textHashtags.value.split(' ');
+    textHashtags.addEventListener('input', function () {
+      textHashtags.setCustomValidity('');
+    });
+    if (hashtagsArr.length > MAX_HASHTAGS) {
+      onHashtagsError();
+      return 'Нельзя указать больше ' + MAX_HASHTAGS + ' тегов';
+    }
+    for (var i = 0; i < hashtagsArr.length; i++) {
+      if (hashtagsArr[i] === '#') {
+        onHashtagsError();
+        return 'Хэштег не может состоять из одной решетки';
+      } else if (hashtagsArr[i].length === MIN_HASHTAG_SIZE) {
+        onHashtagsError();
+        return 'Хэштег не может состоять из одной буквы';
+      } else if (hashtagsArr[i].charAt(0) !== '#') {
+        onHashtagsError();
+        return 'Хэштег должен начинаться с символа #';
+      } else if (hashtagsArr[i].length > MAX_HASHTAG_SIZE) {
+        onHashtagsError();
+        return 'Максимальная длина одного хэштега ' + MAX_HASHTAG_SIZE + ' символов, включая решётку';
+      } else if (hashtagsArr[i].indexOf('#', 1) !== -1) {
+        onHashtagsError();
+        return 'Хэштеги должны разделяться пробелом';
+      }
+      
+    }
+    return '';
+  };
+
+  var hashtagsError = function (errorMessage, field) {
+    if (errorMessage) {
+      field.style.outline = '2px solid red';
+      field.setCustomValidity(errorMessage);
+    }
+  };
+
+  var onHashtagsError = function () {
+    event.preventDefault();
+  };
+
+  var submitValidate = function () {
+    hashtagsError(checkHashtag(), textHashtags);
+  };
+
+  imgUploadForm.addEventListener('submit', submitValidate);
 
   var onPopupEscPress = function (evt) {
     window.util.isEscEvent(evt, closePopup);

@@ -16,41 +16,41 @@
     imgUploadPreview.style.transform = 'scale(' + value / 100 + ')';
   };
 
-  var outZoom = function () {
+  var reduceZoom = function () {
     currentScaleValue -= SIZE_STEP;
     setImagePreviewScale(currentScaleValue);
   };
 
-  var inZoom = function () {
+  var increaseZoom = function () {
     currentScaleValue += SIZE_STEP;
     setImagePreviewScale(currentScaleValue);
   };
 
-  var tryScaleImgOut = function () {
+  var onScaleImgOut = function () {
     if (currentScaleValue > SIZE_MIN) {
-      outZoom();
+      reduceZoom();
     }
   };
 
-  var tryScaleImgIn = function () {
+  var onScaleImgIn = function () {
     if (currentScaleValue < SIZE_MAX) {
-      inZoom();
+      increaseZoom();
     }
   };
 
   scaleDownButton.addEventListener('click', function () {
-    tryScaleImgOut();
+    onScaleImgOut();
   });
 
   scaleDownButton.addEventListener('keydown', function () {
-    tryScaleImgOut();
+    onScaleImgOut();
   });
 
   scaleUpButton.addEventListener('click', function () {
-    tryScaleImgIn();
+    onScaleImgIn();
   });
 
   scaleUpButton.addEventListener('keydown', function () {
-    tryScaleImgIn();
+    onScaleImgIn();
   });
 })();
