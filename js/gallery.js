@@ -35,5 +35,5 @@
     document.body.insertAdjacentElement('afterbegin', block);
   };
 
-  window.load(window.displayPictures, onError);
+  window.load(window.showLoadSuccess, onError);
 })();
