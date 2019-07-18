@@ -43,7 +43,6 @@
         onHashtagsError();
         return 'Хэштеги должны разделяться пробелом';
       }
-      
     }
     return '';
   };
