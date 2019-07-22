@@ -18,7 +18,7 @@
       return percent;
     };
 
-    slider.addEventListener('mousedown', function (evt) {
+    var changeSlider = function (evt) {
       evt.preventDefault();
       var startCoords = evt.clientX;
       var effectLevelLineWidth = levelLine.offsetWidth;
@@ -56,7 +56,9 @@
 
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
-    });
+    };
 
+    slider.addEventListener('mousedown', changeSlider);
   };
+
 })();
