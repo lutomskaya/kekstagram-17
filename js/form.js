@@ -102,4 +102,61 @@
   uploadClose.addEventListener('keydown', function (evt) {
     window.util.isEscEvent(evt, closePopup);
   });
+
+  var successBlock = function () {
+    var successTemplate = document.querySelector('#success')
+    .content
+    .querySelector('.success').cloneNode(true);
+    document.querySelector('main').appendChild(successTemplate);
+    var success = document.querySelector('.success');
+
+    var successButton = document.querySelector('.success__button');
+    successButton.addEventListener('click', function () {
+      success.classList.add('visually-hidden');
+
+    });
+
+    var whereClick = function (evt) {
+      var target = evt.target;
+      if (target.className === success.className) {
+        success.classList.add('visually-hidden');
+      }
+    };
+
+    success.addEventListener('click', whereClick);
+  };
+
+  var errorBlock = function () {
+    if (!document.querySelector('.error')) {
+      var errorTemplate = document.querySelector('#error')
+      .content.
+      querySelector('.error').cloneNode(true);
+      document.querySelector('main').appendChild(errorTemplate);
+      var error = document.querySelector('.error');
+
+      var errorButtons = document.querySelectorAll('.error__button');
+      errorButtons.forEach(function (it) {
+        it.addEventListener('click', function () {
+          error.classList.add('visually-hidden');
+        });
+      });
+
+      var whereClick = function (evt) {
+        var target = evt.target;
+        if (target.className === error.className) {
+          error.classList.add('visually-hidden');
+        }
+      };
+
+      error.addEventListener('click', whereClick);
+    } else {
+      document.querySelector('.error').classList.remove('visually-hidden');
+    }
+  };
+
+  imgUploadForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(imgUploadForm), successBlock, errorBlock);
+    closePopup();
+  });
 })();
