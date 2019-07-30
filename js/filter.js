@@ -9,14 +9,14 @@
   var filtersButton = filtersForm.querySelectorAll('.img-filters__button');
   var activeButton = filtersForm.querySelector('.img-filters__button--active');
 
-  var getDiscussedPhotos = function (photo) {
-    return photo.sort(function (a, b) {
+  var getDiscussedPhotos = function (photos) {
+    return photos.sort(function (a, b) {
       return b.comments.length - a.comments.length;
     });
   };
 
-  var getNewPhotos = function (photo) {
-    return photo.sort(function () {
+  var getNewPhotos = function (photos) {
+    return photos.sort(function () {
       return Math.random() - 0.5;
     }).slice(0, NEW_PICTURES - 1);
   };

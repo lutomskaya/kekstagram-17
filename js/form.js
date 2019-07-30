@@ -4,6 +4,7 @@
   var DEFAULT_FILTER_VALUE = 100;
   var MAX_HASHTAGS = 5;
   var MAX_HASHTAG_LENGTH = 20;
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   var uploadFile = document.querySelector('#upload-file');
   var uploadOverlay = document.querySelector('.img-upload__overlay');
   var uploadClose = document.querySelector('.img-upload__cancel');
@@ -60,45 +61,9 @@
         textHashtags.style.border = '';
       }
     }
-
   };
 
-  imgUploadForm.addEventListener('change', checkHashtag);
-
-  var onPopupEscPress = function (evt) {
-    window.util.isEscEvent(evt, closePopup);
-  };
-
-  var openPopup = function () {
-    uploadOverlay.classList.remove('hidden');
-
-    effectsRadioElements[0].checked = true;
-    scaleInput.value = DEFAULT_FILTER_VALUE;
-    img.className = '';
-    img.style.filter = 'none';
-    effectLevel.classList.add('hidden');
-    document.addEventListener('keydown', onPopupEscPress);
-  };
-
-  var closePopup = function () {
-    uploadOverlay.classList.add('hidden');
-
-    uploadFile.value = '';
-    imgUploadPreview.style.transform = '';
-    imgUploadPreview.style.filter = '';
-    img.className = '';
-    imgUploadForm.reset();
-
-    document.removeEventListener('keydown', onPopupEscPress);
-  };
-
-  textDescription.addEventListener('focus', function () {
-    document.removeEventListener('keydown', onPopupEscPress);
-  });
-
-  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-
-  uploadFile.addEventListener('change', function () {
+  var onFileLoad = function () {
     var file = uploadFile.files[0];
     var fileName = file.name.toLowerCase();
 
@@ -115,16 +80,42 @@
 
       reader.readAsDataURL(file);
     }
-  });
+  };
+
+  uploadFile.addEventListener('change', onFileLoad);
+
+  var onPopupEscPress = function (evt) {
+    if (textDescription !== document.activeElement && textHashtags !== document.activeElement) {
+      window.util.isEscEvent(evt, closePopup);
+    }
+  };
+
+  var openPopup = function () {
+
+    scaleInput.value = DEFAULT_FILTER_VALUE;
+    effectsRadioElements[0].checked = true;
+    effectLevel.classList.add('hidden');
+    document.addEventListener('keydown', onPopupEscPress);
+
+    imgUploadForm.addEventListener('change', checkHashtag);
+
+    uploadOverlay.classList.remove('hidden');
+  };
+
+  var closePopup = function () {
+    uploadOverlay.classList.add('hidden');
+    img.style.filter = 'none';
+    imgUploadPreview.style.transform = '';
+    imgUploadPreview.style.filter = '';
+    img.className = '';
+    imgUploadForm.reset();
+
+    document.removeEventListener('keydown', onPopupEscPress);
+  };
 
   uploadFile.addEventListener('change', openPopup);
 
   uploadClose.addEventListener('click', closePopup);
-
-
-  uploadClose.addEventListener('keydown', function (evt) {
-    window.util.isEscEvent(evt, closePopup);
-  });
 
   var onSuccessMessage = function () {
     var element = successTemplate.cloneNode(true);
