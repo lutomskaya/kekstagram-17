@@ -7,7 +7,7 @@
   var pictureList = document.querySelector('.pictures');
   var fragment = document.createDocumentFragment();
 
-  var renderPicture = function (photo) {
+  function renderPicture(photo) {
     var pictureElement = pictureTemplate.cloneNode(true);
     pictureElement.querySelector('.picture__img').src = photo.url;
     pictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
@@ -21,15 +21,15 @@
       evt.preventDefault();
       window.bigPicture.open(photo);
     }
-  };
+  }
 
-  var clearPictures = function () {
+  function clearPictures() {
     pictureList.querySelectorAll('.picture').forEach(function (element) {
       element.remove();
     });
-  };
+  }
 
-  var displayPictures = function (pictureItems) {
+  function displayPictures(pictureItems) {
     clearPictures();
 
     for (var i = 0; i < pictureItems.length; i++) {
@@ -37,9 +37,9 @@
       fragment.appendChild(picture);
     }
     pictureList.appendChild(fragment);
-  };
+  }
 
-  var onError = function (errorMessage) {
+  function onError(errorMessage) {
     var block = document.createElement('div');
     block.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
     block.style.position = 'absolute';
@@ -49,7 +49,7 @@
 
     block.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', block);
-  };
+  }
 
   window.backend.load(window.filter.init, onError);
 

@@ -11,32 +11,32 @@
   var scaleInput = document.querySelector('.scale__control--value');
   var imgUploadPreview = document.querySelector('.img-upload__preview');
 
-  var setImagePreviewScale = function (value) {
+  function setImagePreviewScale(value) {
     scaleInput.value = value + '%';
     imgUploadPreview.style.transform = 'scale(' + value / 100 + ')';
-  };
+  }
 
-  var reduceZoom = function () {
+  function reduceZoom() {
     currentScaleValue -= SIZE_STEP;
     setImagePreviewScale(currentScaleValue);
-  };
+  }
 
-  var increaseZoom = function () {
+  function increaseZoom() {
     currentScaleValue += SIZE_STEP;
     setImagePreviewScale(currentScaleValue);
-  };
+  }
 
-  var onScaleImgOut = function () {
+  function onScaleImgOut() {
     if (currentScaleValue > SIZE_MIN) {
       reduceZoom();
     }
-  };
+  }
 
-  var onScaleImgIn = function () {
+  function onScaleImgIn() {
     if (currentScaleValue < SIZE_MAX) {
       increaseZoom();
     }
-  };
+  }
 
   scaleDownButton.addEventListener('click', function () {
     onScaleImgOut();

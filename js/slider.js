@@ -13,19 +13,19 @@
       levelDepth.style.width = '100%';
     });
 
-    var convertCoordInPercent = function (coord, fullWidth) {
+    function convertCoordInPercent(coord, fullWidth) {
       var percent = (coord * 100) / fullWidth + '%';
       return percent;
-    };
+    }
 
-    var changeSlider = function (evt) {
+    function changeSlider(evt) {
       evt.preventDefault();
       var startCoords = evt.clientX;
       var effectLevelLineWidth = levelLine.offsetWidth;
       var coordSliderLine = levelLine.getBoundingClientRect();
       var coordSliderLineRight = coordSliderLine.left + effectLevelLineWidth;
 
-      var onMouseMove = function (moveEvt) {
+      function onMouseMove(moveEvt) {
         moveEvt.preventDefault();
 
         var shift = startCoords - moveEvt.clientX;
@@ -45,18 +45,18 @@
         levelDepth.style.width = pinPosition;
 
         changeIntensityEffect();
-      };
+      }
 
-      var onMouseUp = function (upEvt) {
+      function onMouseUp(upEvt) {
         upEvt.preventDefault();
 
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
-      };
+      }
 
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
-    };
+    }
 
     slider.addEventListener('mousedown', changeSlider);
   };
