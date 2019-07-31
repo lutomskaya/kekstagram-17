@@ -16,7 +16,7 @@
   var effectsRadioElements = document.querySelectorAll('.effects__radio');
   var imgUploadPreview = document.querySelector('.img-upload__preview');
 
-  var getEffectStyle = function (effect, value) {
+  function getEffectStyle(effect, value) {
     var curValue = (value) ? value * DEFAULT_EFFECTS_VALUES[effect] : DEFAULT_EFFECTS_VALUES[effect];
 
     switch (effect) {
@@ -33,25 +33,26 @@
       default:
         return DEFAULT_EFFECTS_VALUES.none;
     }
-  };
-  var changeEffects = function (evt) {
+  }
+
+  function changeEffects(evt) {
     var effect = evt.target.value;
 
     effectLevel.classList[(effect !== 'none') ? 'remove' : 'add']('hidden');
     imgUploadPreview.style.filter = getEffectStyle(effect);
 
-  };
+  }
 
   effectsRadioElements.forEach(function (item) {
     item.addEventListener('change', changeEffects);
   });
 
-  var changeIntensityEffect = function () {
+  function changeIntensityEffect() {
     var currentLevel = (slider.offsetLeft / levelLine.clientWidth).toFixed(1);
     var currentEffect = effectsField.querySelector('input:checked').value;
 
     imgUploadPreview.style.filter = getEffectStyle(currentEffect, currentLevel);
-  };
+  }
 
   window.contentSlider(changeIntensityEffect);
 })();

@@ -2,57 +2,57 @@
 
 (function () {
   var NEW_PICTURES = 10;
-  var pictureBlocks = [];
+  var pictures = [];
 
   var filtersElement = document.querySelector('.img-filters');
   var filtersForm = document.querySelector('.img-filters__form');
   var filtersButton = filtersForm.querySelectorAll('.img-filters__button');
   var activeButton = filtersForm.querySelector('.img-filters__button--active');
 
-  var getDiscussedPhotos = function (photo) {
-    return photo.sort(function (a, b) {
+  function getDiscussedPhotos(photos) {
+    return photos.sort(function (a, b) {
       return b.comments.length - a.comments.length;
     });
-  };
+  }
 
-  var getNewPhotos = function (photo) {
-    return photo.sort(function () {
+  function getNewPhotos(photos) {
+    return photos.sort(function () {
       return Math.random() - 0.5;
     }).slice(0, NEW_PICTURES - 1);
-  };
+  }
 
-  var onFilterButtonClick = function (buttonElement) {
+  function onFilterButtonClick(buttonElement) {
     filtersButton.forEach(function (item) {
       item.classList.remove('img-filters__button--active');
     });
 
     buttonElement.classList.add('img-filters__button--active');
-  };
+  }
 
-  var getFilterPhotos = function (filter) {
+  function getFilterPhotos(filter) {
     switch (filter) {
       case 'filter-discussed':
-        return getDiscussedPhotos(pictureBlocks);
+        return getDiscussedPhotos(pictures);
       case 'filter-new':
-        return getNewPhotos(pictureBlocks);
+        return getNewPhotos(pictures);
       default:
-        return pictureBlocks;
+        return pictures;
     }
-  };
+  }
 
-  var onFilterChange = function (evt) {
+  function onFilterChange(evt) {
     evt.preventDefault();
 
     onFilterButtonClick(evt.target);
     window.gallery.render(getFilterPhotos(evt.target.id));
-  };
+  }
 
-  var showLoadSuccess = function (item) {
-    pictureBlocks = item;
+  function showLoadSuccess(item) {
+    pictures = item;
     window.gallery.render(getFilterPhotos(activeButton.id));
     filtersElement.classList.remove('img-filters--inactive');
     filtersForm.addEventListener('click', window.util.debounce(onFilterChange));
-  };
+  }
 
   window.filter = {
     init: showLoadSuccess
