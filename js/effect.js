@@ -35,6 +35,9 @@
       case 'heat':
         imgUploadPreview.classList.add('effects__preview--heat');
         break;
+      case 'none':
+        imgUploadPreview.classList.add('effects__preview--none');
+        break;
     }
   }
 
