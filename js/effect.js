@@ -9,12 +9,34 @@
     'phobos': 3,
     'heat': 3
   };
-  var slider = document.querySelector('.effect-level__pin');
-  var levelLine = document.querySelector('.effect-level__line');
-  var effectsField = document.querySelector('.img-upload__effects');
   var effectLevel = document.querySelector('.effect-level');
+  var slider = effectLevel.querySelector('.effect-level__pin');
+  var levelLine = effectLevel.querySelector('.effect-level__line');
+  var effectsField = document.querySelector('.img-upload__effects');
   var effectsRadioElements = document.querySelectorAll('.effects__radio');
   var imgUploadPreview = document.querySelector('.img-upload__preview');
+
+  function addFilterClassname(filterType) {
+    imgUploadPreview.className = 'img-upload__preview';
+
+    switch (filterType) {
+      case 'chrome':
+        imgUploadPreview.classList.add('effects__preview--chrome');
+        break;
+      case 'sepia':
+        imgUploadPreview.classList.add('effects__preview--sepia');
+        break;
+      case 'marvin':
+        imgUploadPreview.classList.add('effects__preview--blur');
+        break;
+      case 'phobos':
+        imgUploadPreview.classList.add('effects__preview--phobos');
+        break;
+      case 'heat':
+        imgUploadPreview.classList.add('effects__preview--heat');
+        break;
+    }
+  }
 
   function getEffectStyle(effect, value) {
     var curValue = (value) ? value * DEFAULT_EFFECTS_VALUES[effect] : DEFAULT_EFFECTS_VALUES[effect];
@@ -40,7 +62,7 @@
 
     effectLevel.classList[(effect !== 'none') ? 'remove' : 'add']('hidden');
     imgUploadPreview.style.filter = getEffectStyle(effect);
-
+    addFilterClassname(effect);
   }
 
   effectsRadioElements.forEach(function (item) {
