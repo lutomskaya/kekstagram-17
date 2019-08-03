@@ -24,43 +24,47 @@
     .content
     .querySelector('.error');
 
-  function getSortElements(array) {
-    var unique = array.filter(function (it, i) {
-      return array.indexOf(it.toLowerCase()) === i;
-    });
-
-    return unique.length === array.length;
+  function onHashtagInput(evt) {
+    var hashArr = textHashtags.value.trim().replace(/\s+/g, ' ').split(' ');
+    var target = evt.target;
+    if (checkHashtag(hashArr, target)) {
+      target.setCustomValidity(checkHashtag(hashArr, target));
+    } else {
+      target.setCustomValidity('');
+      target.removeAttribute('style');
+    }
   }
 
-  function checkHashtag() {
-    var hashtagsArr = textHashtags.value.trim().split(' ');
-    textHashtags.setCustomValidity('');
-    var hashtagsBorder = '2px solid red';
+  textHashtags.addEventListener('input', onHashtagInput);
 
-    for (var i = 0; i < hashtagsArr.length; i++) {
-      if (hashtagsArr.length > MAX_HASHTAGS) {
-        textHashtags.setCustomValidity('Нельзя указать больше ' + MAX_HASHTAGS + ' тегов');
-        textHashtags.style.border = hashtagsBorder;
-      } else if ((hashtagsArr[i][0] !== '#') && (hashtagsArr[i].length > 0)) {
-        textHashtags.setCustomValidity('Хэш-тег должен начинаться с символа `#` (решётка)');
-        textHashtags.style.border = hashtagsBorder;
-      } else if ((hashtagsArr[i][0] === '#') && (hashtagsArr[i].length === 1)) {
-        textHashtags.setCustomValidity('Хэш-тег не может состоять из одной `#` (решётки)');
-        textHashtags.style.border = hashtagsBorder;
-      } else if (hashtagsArr[i].slice(1).indexOf('#') > -1) {
-        textHashtags.setCustomValidity('Хэш-теги нужно разделять пробелами');
-        textHashtags.style.border = hashtagsBorder;
-      } else if (hashtagsArr[i].length > MAX_HASHTAG_LENGTH) {
-        textHashtags.setCustomValidity('Длина хэш-тега должна быть не более ' + MAX_HASHTAG_LENGTH + ' символов');
-        textHashtags.style.border = hashtagsBorder;
-      } else if (!getSortElements(hashtagsArr)) {
-        textHashtags.setCustomValidity('Теги не должны повторяться');
-        textHashtags.style.border = hashtagsBorder;
-      } else {
-        textHashtags.setCustomValidity('');
-        textHashtags.style.border = '';
-      }
+  function checkHashtag(arr, target) {
+    function outlineColorChanger() {
+      target.style.outline = '2px solid red';
     }
+    var errorMessage;
+
+    arr.forEach(function (elem, k) {
+      if (elem[0] !== '#' && elem !== '') {
+        outlineColorChanger();
+        errorMessage = 'Хеш тег должен начинаться символом #';
+      } else if (elem.length > MAX_HASHTAG_LENGTH) {
+        outlineColorChanger();
+        errorMessage = 'Длина хеш тега не должна превышать ' + MAX_HASHTAG_LENGTH + ' ';
+      } else if (arr.length > MAX_HASHTAGS) {
+        outlineColorChanger();
+        errorMessage = 'Хеш тегов не может быть больше ' + MAX_HASHTAGS;
+      } else if (elem === '#' && elem.length < 2) {
+        outlineColorChanger();
+        errorMessage = 'Хеш тег не может состоять из одной решётки';
+      }
+      for (var j = k + 1; j < arr.length; j++) {
+        if (elem.toUpperCase() === arr[j].toUpperCase()) {
+          outlineColorChanger();
+          errorMessage = 'Один и тот же хеш-тег не может быть использован дважды';
+        }
+      }
+    });
+    return errorMessage;
   }
 
   function onFileLoad() {
@@ -97,8 +101,6 @@
     effectLevel.classList.add('hidden');
     document.addEventListener('keydown', onPopupEscPress);
 
-    imgUploadForm.addEventListener('change', checkHashtag);
-
     uploadOverlay.classList.remove('hidden');
   }
 
@@ -106,8 +108,10 @@
     uploadOverlay.classList.add('hidden');
     img.style.filter = 'none';
     imgUploadPreview.style.transform = '';
-    imgUploadPreview.style.filter = '';
-    img.className = '';
+    imgUploadPreview.style.filter = 'none';
+    img.className = 'none';
+    textHashtags.setCustomValidity('');
+    textHashtags.style.outline = '';
     imgUploadForm.reset();
 
     document.removeEventListener('keydown', onPopupEscPress);

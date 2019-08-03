@@ -60,7 +60,8 @@
       commentLoader.addEventListener('click', onLoaderClick);
 
       function renderCommentsStep() {
-        for (var i = currentIndex; i < Math.min(currentIndex + COMMENT_COUNT, comments.length); i++) {
+        var lastIndex = Math.min(currentIndex + COMMENT_COUNT, comments.length);
+        for (var i = currentIndex; i < lastIndex; i++) {
           commentsList.appendChild(renderComment(comments[i]));
         }
 
