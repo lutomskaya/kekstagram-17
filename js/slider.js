@@ -6,6 +6,7 @@
   var levelDepth = document.querySelector('.effect-level__depth');
   var effectsList = document.querySelector('.effects__list');
   var levelLine = document.querySelector('.effect-level__line');
+  var effectsValue = document.querySelector('.effect-level__value');
 
   window.contentSlider = function (changeIntensityEffect) {
     effectsList.addEventListener('click', function () {
@@ -43,6 +44,7 @@
         var pinPosition = convertCoordInPercent(effectPinCoord, effectLevelLineWidth);
         slider.style.left = pinPosition;
         levelDepth.style.width = pinPosition;
+        effectsValue.setAttribute('value', pinPosition);
 
         changeIntensityEffect();
       }

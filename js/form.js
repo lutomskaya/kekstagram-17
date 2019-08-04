@@ -12,7 +12,7 @@
   var effectLevel = document.querySelector('.effect-level');
   var effectsRadioElements = document.querySelectorAll('.effects__radio');
   var textDescription = document.querySelector('.text__description');
-  var imgUploadPreview = document.querySelector('.img-upload__preview');
+  var imgUploadPreview = document.querySelector('.img-upload__preview img');
   var img = document.querySelector('img');
   var textHashtags = document.querySelector('.text__hashtags');
   var imgUploadForm = document.querySelector('.img-upload__form');

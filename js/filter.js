@@ -4,14 +4,14 @@
   var NEW_PICTURES = 10;
   var pictures = [];
 
-  var pictureList = document.querySelector('.pictures');
+  var picturesList = document.querySelector('.pictures');
   var filtersElement = document.querySelector('.img-filters');
   var filtersForm = document.querySelector('.img-filters__form');
   var filtersButton = filtersForm.querySelectorAll('.img-filters__button');
   var activeButton = filtersForm.querySelector('.img-filters__button--active');
 
   function clearPictures() {
-    pictureList.querySelectorAll('.picture').forEach(function (element) {
+    picturesList.querySelectorAll('.picture').forEach(function (element) {
       element.remove();
     });
   }
