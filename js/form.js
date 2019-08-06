@@ -96,7 +96,7 @@
 
   function openPopup() {
 
-    scaleInput.value = DEFAULT_FILTER_VALUE;
+    scaleInput.defaultValue = DEFAULT_FILTER_VALUE + '%';
     effectRadioElement[0].checked = true;
     effectLevel.classList.add('hidden');
     document.addEventListener('keydown', onPopupEscPress);
