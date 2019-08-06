@@ -5,15 +5,17 @@
   var SIZE_MIN = 25;
   var SIZE_MAX = 100;
   var SIZE_STEP = 25;
+  var currentIndex;
   var currentScaleValue = SIZE_MAX;
   var scaleUpButton = document.querySelector('.scale__control--bigger');
   var scaleDownButton = document.querySelector('.scale__control--smaller');
   var scaleInput = document.querySelector('.scale__control--value');
-  var imgUploadPreview = document.querySelector('.img-upload__preview');
+  var imgUploadPreview = document.querySelector('.img-upload__preview img');
 
   function setImagePreviewScale(value) {
-    scaleInput.value = value + '%';
     imgUploadPreview.style.transform = 'scale(' + value / 100 + ')';
+    currentIndex = value + '%';
+    scaleInput.setAttribute('value', currentIndex);
   }
 
   function reduceZoom() {
