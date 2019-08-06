@@ -57,7 +57,7 @@
       xhr.open('GET', Url.LOAD);
       xhr.send();
     },
-    save: function (success, fail, formData) {
+    save: function (formData, success, fail) {
       useServer(success, fail);
       xhr.open('POST', Url.SAVE);
       xhr.send(formData);

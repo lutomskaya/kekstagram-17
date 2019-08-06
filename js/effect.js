@@ -12,34 +12,9 @@
   var effectLevel = document.querySelector('.effect-level');
   var slider = effectLevel.querySelector('.effect-level__pin');
   var levelLine = effectLevel.querySelector('.effect-level__line');
-  var effectsField = document.querySelector('.img-upload__effects');
-  var effectsRadioElements = document.querySelectorAll('.effects__radio');
-  var imgUploadPreview = document.querySelector('.img-upload__preview');
-
-  function addFilterClassname(filterType) {
-    imgUploadPreview.className = 'img-upload__preview';
-
-    switch (filterType) {
-      case 'chrome':
-        imgUploadPreview.classList.add('effects__preview--chrome');
-        break;
-      case 'sepia':
-        imgUploadPreview.classList.add('effects__preview--sepia');
-        break;
-      case 'marvin':
-        imgUploadPreview.classList.add('effects__preview--blur');
-        break;
-      case 'phobos':
-        imgUploadPreview.classList.add('effects__preview--phobos');
-        break;
-      case 'heat':
-        imgUploadPreview.classList.add('effects__preview--heat');
-        break;
-      case 'none':
-        imgUploadPreview.classList.add('effects__preview--none');
-        break;
-    }
-  }
+  var effectField = document.querySelector('.img-upload__effects');
+  var effectRadioElement = document.querySelectorAll('.effects__radio');
+  var imgUploadPreview = document.querySelector('.img-upload__preview img');
 
   function getEffectStyle(effect, value) {
     var curValue = (value) ? value * DEFAULT_EFFECTS_VALUES[effect] : DEFAULT_EFFECTS_VALUES[effect];
@@ -65,16 +40,16 @@
 
     effectLevel.classList[(effect !== 'none') ? 'remove' : 'add']('hidden');
     imgUploadPreview.style.filter = getEffectStyle(effect);
-    addFilterClassname(effect);
+    imgUploadPreview.className = 'effects__preview--' + effect;
   }
 
-  effectsRadioElements.forEach(function (item) {
+  effectRadioElement.forEach(function (item) {
     item.addEventListener('change', changeEffects);
   });
 
   function changeIntensityEffect() {
     var currentLevel = (slider.offsetLeft / levelLine.clientWidth).toFixed(1);
-    var currentEffect = effectsField.querySelector('input:checked').value;
+    var currentEffect = effectField.querySelector('input:checked').value;
 
     imgUploadPreview.style.filter = getEffectStyle(currentEffect, currentLevel);
   }
