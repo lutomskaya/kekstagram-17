@@ -10,11 +10,11 @@
   var uploadClose = document.querySelector('.img-upload__cancel');
   var scaleInput = document.querySelector('.scale__control--value');
   var effectLevel = document.querySelector('.effect-level');
-  var effectsRadioElements = document.querySelectorAll('.effects__radio');
+  var effectRadioElement = document.querySelectorAll('.effects__radio');
   var textDescription = document.querySelector('.text__description');
   var imgUploadPreview = document.querySelector('.img-upload__preview img');
   var img = document.querySelector('img');
-  var textHashtags = document.querySelector('.text__hashtags');
+  var textHashtag = document.querySelector('.text__hashtags');
   var imgUploadForm = document.querySelector('.img-upload__form');
   var mainElement = document.querySelector('main');
   var successTemplate = document.querySelector('#success')
@@ -25,7 +25,7 @@
     .querySelector('.error');
 
   function onHashtagInput(evt) {
-    var hashArr = textHashtags.value.trim().replace(/\s+/g, ' ').split(' ');
+    var hashArr = textHashtag.value.trim().replace(/\s+/g, ' ').split(' ');
     var target = evt.target;
     if (checkHashtag(hashArr, target)) {
       target.setCustomValidity(checkHashtag(hashArr, target));
@@ -35,7 +35,7 @@
     }
   }
 
-  textHashtags.addEventListener('input', onHashtagInput);
+  textHashtag.addEventListener('input', onHashtagInput);
 
   function checkHashtag(arr, target) {
     function outlineColorChanger() {
@@ -89,7 +89,7 @@
   uploadFile.addEventListener('change', onFileLoad);
 
   function onPopupEscPress(evt) {
-    if (textDescription !== document.activeElement && textHashtags !== document.activeElement) {
+    if (textDescription !== document.activeElement && textHashtag !== document.activeElement) {
       window.util.isEscEvent(evt, closePopup);
     }
   }
@@ -97,7 +97,7 @@
   function openPopup() {
 
     scaleInput.value = DEFAULT_FILTER_VALUE;
-    effectsRadioElements[0].checked = true;
+    effectRadioElement[0].checked = true;
     effectLevel.classList.add('hidden');
     document.addEventListener('keydown', onPopupEscPress);
 
@@ -110,8 +110,8 @@
     imgUploadPreview.style.transform = '';
     imgUploadPreview.style.filter = 'none';
     img.className = 'none';
-    textHashtags.setCustomValidity('');
-    textHashtags.style.outline = '';
+    textHashtag.setCustomValidity('');
+    textHashtag.style.outline = '';
     imgUploadForm.reset();
 
     document.removeEventListener('keydown', onPopupEscPress);

@@ -12,8 +12,8 @@
   var effectLevel = document.querySelector('.effect-level');
   var slider = effectLevel.querySelector('.effect-level__pin');
   var levelLine = effectLevel.querySelector('.effect-level__line');
-  var effectsField = document.querySelector('.img-upload__effects');
-  var effectsRadioElements = document.querySelectorAll('.effects__radio');
+  var effectField = document.querySelector('.img-upload__effects');
+  var effectRadioElement = document.querySelectorAll('.effects__radio');
   var imgUploadPreview = document.querySelector('.img-upload__preview img');
 
   function getEffectStyle(effect, value) {
@@ -43,13 +43,13 @@
     imgUploadPreview.className = 'effects__preview--' + effect;
   }
 
-  effectsRadioElements.forEach(function (item) {
+  effectRadioElement.forEach(function (item) {
     item.addEventListener('change', changeEffects);
   });
 
   function changeIntensityEffect() {
     var currentLevel = (slider.offsetLeft / levelLine.clientWidth).toFixed(1);
-    var currentEffect = effectsField.querySelector('input:checked').value;
+    var currentEffect = effectField.querySelector('input:checked').value;
 
     imgUploadPreview.style.filter = getEffectStyle(currentEffect, currentLevel);
   }

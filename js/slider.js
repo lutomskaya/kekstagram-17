@@ -4,12 +4,12 @@
 
   var slider = document.querySelector('.effect-level__pin');
   var levelDepth = document.querySelector('.effect-level__depth');
-  var effectsList = document.querySelector('.effects__list');
+  var effectList = document.querySelector('.effects__list');
   var levelLine = document.querySelector('.effect-level__line');
-  var effectsValue = document.querySelector('.effect-level__value');
+  var effectValue = document.querySelector('.effect-level__value');
 
   window.contentSlider = function (changeIntensityEffect) {
-    effectsList.addEventListener('click', function () {
+    effectList.addEventListener('click', function () {
       slider.style.left = '100%';
       levelDepth.style.width = '100%';
     });
@@ -44,7 +44,7 @@
         var pinPosition = convertCoordInPercent(effectPinCoord, effectLevelLineWidth);
         slider.style.left = pinPosition;
         levelDepth.style.width = pinPosition;
-        effectsValue.setAttribute('value', pinPosition);
+        effectValue.setAttribute('value', pinPosition);
 
         changeIntensityEffect();
       }

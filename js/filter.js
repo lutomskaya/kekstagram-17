@@ -4,14 +4,14 @@
   var NEW_PICTURES = 10;
   var pictures = [];
 
-  var picturesList = document.querySelector('.pictures');
-  var filtersElement = document.querySelector('.img-filters');
-  var filtersForm = document.querySelector('.img-filters__form');
-  var filtersButton = filtersForm.querySelectorAll('.img-filters__button');
-  var activeButton = filtersForm.querySelector('.img-filters__button--active');
+  var pictureList = document.querySelector('.pictures');
+  var filterElement = document.querySelector('.img-filters');
+  var filterForm = document.querySelector('.img-filters__form');
+  var filterButton = filterForm.querySelectorAll('.img-filters__button');
+  var activeButton = filterForm.querySelector('.img-filters__button--active');
 
   function clearPictures() {
-    picturesList.querySelectorAll('.picture').forEach(function (element) {
+    pictureList.querySelectorAll('.picture').forEach(function (element) {
       element.remove();
     });
   }
@@ -37,7 +37,7 @@
   }
 
   function onFilterButtonClick(buttonElement) {
-    filtersButton.forEach(function (item) {
+    filterButton.forEach(function (item) {
       item.classList.remove('img-filters__button--active');
     });
 
@@ -65,8 +65,8 @@
   function showLoadSuccess(item) {
     pictures = item;
     window.gallery.render(getFilterPhotos(activeButton.id));
-    filtersElement.classList.remove('img-filters--inactive');
-    filtersForm.addEventListener('click', window.util.debounce(onFilterChange));
+    filterElement.classList.remove('img-filters--inactive');
+    filterForm.addEventListener('click', window.util.debounce(onFilterChange));
   }
 
   window.filter = {

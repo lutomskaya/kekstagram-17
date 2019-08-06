@@ -4,18 +4,18 @@
   var pictureTemplate = document.querySelector('#picture')
       .content
       .querySelector('.picture');
-  var picturesList = document.querySelector('.pictures');
+  var pictureList = document.querySelector('.pictures');
   var fragment = document.createDocumentFragment();
 
   function renderPicture(photo) {
-    var picturesElement = pictureTemplate.cloneNode(true);
-    picturesElement.querySelector('.picture__img').src = photo.url;
-    picturesElement.querySelector('.picture__comments').textContent = photo.comments.length;
-    picturesElement.querySelector('.picture__likes').textContent = photo.likes;
+    var pictureElement = pictureTemplate.cloneNode(true);
+    pictureElement.querySelector('.picture__img').src = photo.url;
+    pictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
+    pictureElement.querySelector('.picture__likes').textContent = photo.likes;
 
-    picturesElement.addEventListener('click', onPictureClick);
+    pictureElement.addEventListener('click', onPictureClick);
 
-    return picturesElement;
+    return pictureElement;
 
     function onPictureClick(evt) {
       evt.preventDefault();
@@ -29,7 +29,7 @@
       var picture = renderPicture(pictureItems[i]);
       fragment.appendChild(picture);
     }
-    picturesList.appendChild(fragment);
+    pictureList.appendChild(fragment);
   }
 
   function onError(errorMessage) {
